@@ -166,78 +166,272 @@
     <pre class="line-numbers">
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <code id="arduinoCode" class="language-cpp">
-// Collision Warning System with Distance Sensor (HC-SR04)
-// Author: Ana Rodrigues
-// Oct 2, 2025
-// Object is farther than 50cm: Green LED lights up
-// Object is closer than 50 cm, but more than 10cm away: Yellow LED lights, buzzer plays 300Hz tone
-// Object is closer than 10cm: Red LED lights up, buzzer plays 500Hz tone
+#include <LiquidCrystal.h>
 
-//LED pins
-const int greenLED = 2;
-const int yellowLED = 3;
-const int redLED = 4;
+#include <DHT.h>
 
-// Ultrasonic sensor pins
-const int trigPin = 9;
-const int echoPin = 10;
+
+
+// LCD pins: RS, E, D4, D5, D6, D7
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+
+
+// DHT setup
+
+#define DHTPIN 7  // DHT11 data pin
+
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+
+
+// MQ sensor
+
+const int mqPin = A0;
+
+
+
+// Water level sensor
+
+const int waterPin = A1;
+
+
 
 // Passive buzzer pin
-const int buzzer = 11;
+
+const int buzzerPin = 8;
+
+
 
 void setup() {
-  pinMode(greenLED, OUTPUT);
-  pinMode(yellowLED, OUTPUT);
-  pinMode(redLED, OUTPUT);
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-  Serial.begin(9600);
+
+ lcd.begin(16, 2);
+
+ dht.begin();
+
+ Serial.begin(9600);
+
+ pinMode(buzzerPin, OUTPUT);
+
 }
 
+
+
 void loop() {
-  // Measure distance
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
 
-  long duration = pulseIn(echoPin, HIGH);
-  long distance = duration * 0.034 / 2;
+ float temp = dht.readTemperature();
 
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+ float hum = dht.readHumidity();
+
+ int mqValue = analogRead(mqPin);
+
+ int waterValue = analogRead(waterPin);
+
+
+
+ // Air quality status
+
+ String airStatus;
+
+ if (mqValue < 200) airStatus = "Clean";
+
+ else if (mqValue < 400) airStatus = "Moderate";
+
+ else if (mqValue < 600) airStatus = "Polluted";
+
+ else airStatus = "Smoke!";
+
+
+
+ // Water level status
+
+ String waterStatus;
+
+ if (waterValue < 300) waterStatus = "Low";
+
+ else if (waterValue < 700) waterStatus = "Medium";
+
+ else waterStatus = "High";
+
+
+
+ // --- LCD Display ---
+
+ lcd.clear();
+
+ lcd.setCursor(0,0);
+
+ lcd.print("T:");
+
+ lcd.print(temp,1);
+
+ lcd.print("C H:");
+
+ lcd.print(hum,0);
+
+ lcd.print("%");
+
+
+
+ lcd.setCursor(0,1);
+
+ lcd.print("Air:");
+
+ lcd.print(airStatus);
+
+
+
+ delay(2000);
+
+
+
+ lcd.clear();
+
+ lcd.setCursor(0,0);
+
+ lcd.print("Water Level:");
+
+ lcd.setCursor(0,1);
+
+ lcd.print(waterStatus);
+
+
+
+ delay(2000);
+
+
+
+ // --- Passive Buzzer Logic ---
+
+ bool alert = false;
+
+
+
+ // Water alerts
+
+ if (waterStatus == "Medium") {
+
+  alert = true;
+
+  tone(buzzerPin, 1000, 500); // medium tone
+
+  delay(500);
+
+  noTone(buzzerPin);
+
+ }
+
+ else if (waterStatus == "High") {
+
+  alert = true;
+
+  tone(buzzerPin, 1500, 800); // higher tone
+
+  delay(800);
+
+  noTone(buzzerPin);
+
+ }
+
+
+
+ // Air quality alerts
+
+ if (airStatus == "Polluted") {
+
+  alert = true;
+
+  tone(buzzerPin, 1200, 400); // warning tone
+
+  delay(400);
+
+  noTone(buzzerPin);
+
+ }
+
+ else if (airStatus == "Smoke!") {
+
+  alert = true;
+
+  tone(buzzerPin, 2000, 1000); // urgent high tone
+
+  delay(1000);
+
+  noTone(buzzerPin);
+
+ }
+
+
+
+ // Humidity alerts
+
+ if (hum >= 70) {
+
+  alert = true;
+
+  tone(buzzerPin, 800, 600); // strong warning tone
+
+  delay(600);
+
+  noTone(buzzerPin);
+
+ }
+
+ else if (hum >= 50) {
+
+  alert = true;
+
+  tone(buzzerPin, 1000, 400); // louder tone
+
+  delay(400);
+
+  noTone(buzzerPin);
+
+ }
+
   
-  //Error in measurement:
-  if (distance <= 0)
-    return;
 
-  //Too close:
-  if (distance <= 10) {
-    digitalWrite(greenLED, LOW);
-    digitalWrite(yellowLED, LOW);
-    digitalWrite(redLED, HIGH);
-    tone(buzzer, 500); // Play 500Hz tone
-    return;
-  }
 
-  //Midrange:
-  if (distance <= 30) {
-    digitalWrite(greenLED, LOW);
-    digitalWrite(yellowLED, HIGH);
-    digitalWrite(redLED, LOW);
-    tone(buzzer, 300); // Play 300Hz tone
-    return;
-  }
 
-  //Normal status:
-  digitalWrite(greenLED, HIGH);
-  digitalWrite(yellowLED, LOW);
-  digitalWrite(redLED, LOW);
-  noTone(buzzer); // stop buzzer
+ if (!alert) {
 
-  delay(100);
+  noTone(buzzerPin); // silence when no alert
+
+ }
+
+
+
+ // --- Serial Monitor ---
+
+ Serial.print("Temp: ");
+
+ Serial.print(temp);
+
+ Serial.print(" C, Hum: ");
+
+ Serial.print(hum);
+
+ Serial.print(" %, MQ: ");
+
+ Serial.print(mqValue);
+
+ Serial.print(" → ");
+
+ Serial.print(airStatus);
+
+ Serial.print(", Water: ");
+
+ Serial.print(waterStatus);
+
+ Serial.print(" (Raw: ");
+
+ Serial.print(waterValue);
+
+ Serial.println(")");
+
 }
     </code></pre>
 
