@@ -75,8 +75,9 @@
 
   <section id="circuit-diagram">
     <h2>Circuit Diagram</h2>
-    <p>The ultrasonic sensor measures distance; the Arduino activates LEDs and the buzzer according to distance
-      thresholds.</p>
+    <p>The tempurature and humidity sensor measures the tempurature, the air quality sensor measures the air quality and the 
+      water level sensors measures the water level; the Arduino constantly displays measurments through the LCD,
+      the buzzer alarms at certain thresholds and instances.</p>
     <img src="collision-warning-system-Arduino.jpg" alt="Arduino collision warning system">
   </section>
 
@@ -99,215 +100,124 @@
   <h2>Bill of Materials (BoM)</h2>
 
   <table>
-
    <thead>
-
     <tr>
-
      <th>Item</th>
-
      <th>Qty</th>
-
      <th>Unit Price (CAD)</th>
-
      <th>Subtotal (CAD)</th>
-
      <th>Source</th>
-
     </tr>
-
    </thead>
 
    <tbody>
-
     <tr>
-
      <td>Arduino Uno Rev3</td>
-
      <td>1</td>
-
      <td>$27.60</td>
-
      <td>$27.60</td>
-
      <td><a href="https://store-usa.arduino.cc/products/arduino-uno-rev3">Arduino Store</a></td>
-
     </tr>
 
     <tr>
-
      <td>tempurature and humidity Sensor</td>
-
      <td>1</td>
-
      <td>$4.95</td>
-
      <td>$4.95</td>
-
      <td><a href="DHT11 Temperature / Humidity Sensor - BC Robotics ">BcRobotics</a></td>
-
     </tr>
 
     <tr>
-
      <td>Air quality sensor</td>
-
      <td>1</td>
-
      <td>$1.65</td>
-
      <td>$1.65</td>
-
      <td><a href="https://www.aliexpress.com/item/1005005990806310.html">Aliexpress</a></td>
-
     </tr>
 
     <tr>
-
      <td>Water level sensor</td>
-
      <td>1</td>
-
      <td>$8.29</td>
-
      <td>$8.29</td>
-
      <td><a herf="https://www.amazon.ca/Sensor-module-Detection-Surface-Arduino/dp/B01N058HS6">Amazon</a></td>
-
     </tr>
 
     <tr>
-
      <td>Breadboard</td>
-
      <td>1</td>
-
      <td>$7.95</td>
-
      <td>$7.95</td>
-
      <td><a herf="https://www.pishop.ca/product/full-sized-breadboard-830-points">Pishiop</a></td>
-
     </tr>
 
     <tr>
-
      <td>jumperwires</td>
-
      <td>~50</td>
-
      <td>$8.59</td>
-
      <td>$8.59</td>
-
      <td><a href="https://www.amazon.ca/120Pcs-Multicolored-Solderless-Breadboard-Arduino/dp/B0D1K8Q75B/ref=asc_df_B0D1K8Q75B">Amazon</a></td>
-
     </tr>
 
     <tr>
-
      <td>LCD display</td>
-
      <td>1</td>
-
      <td>$17.00</td>
-
      <td>$17.00</td>
-
      <td><a href="https://ca.robotshop.com/products/dfrobot-i2c-twi-lcd1602-module">Robotshop</a>
-
     </tr>
 
     <tr>                                                      
-
      <td>buzzer</td>
-
      <td>1</td>
-
      <td>$0.52</td>
-
      <td>$0.52</td>
-
      <td><a herf="https://www.pcboard.ca/minipiezo-buzzer">pcboard</a></td>
-
      </tr>
 
      <tr>                                                      
-
      <td>potentiometer</td>
-
      <td>1</td>
-
      <td>$1</td>
-
      <td>$1</td>
-
      <td><a herf="https://www.alibaba.com/product-detail/50K-Potentiometer-Variable-Resistors-3-Terminals_1601081966495.html">Alibaba</a></td>
-
      </tr>
 
      <tr>                                                      
-
      <td>power source</td>
-
      <td>1</td>
-
      <td>$10.75</td>
-
      <td>$10.75</td>
-
      <td><a herf="https://www.amazon.ca/Amazon-Basics-Performance-All-Purpose-Batteries/dp/B0774D64LT/ref=asc_df_B0774D64LT">amazon </a></td>
-
      </tr>
 
      <tr>                                                      
-
      <td>clear casing or box</td>
-
      <td>1-2</td>
-
      <td>$22</td>
-
      <td>$22</td>
-
      <td><a herf="https://www.amazon.ca/iDesign-Kitchen-Stackable-Plastic-Organizer/dp/B00W02UXHQ/ref=sr_1_26">amazon</a></td>
-
      </tr>
 
      <tr>                                                      
-
      <td>switch</td>
-
      <td>1</td>
-
      <td>$9.47</td>
-
      <td>$9.47</td>
-
      <td><a herf="https://www.amazon.ca/DaierTek-Rocker-Switch-Position-Terminal/dp/B07S2QJKTX">amazon</a></td>
-
      </td>
-
      </tr>
 
    </tbody>
 
    <tfoot>
-
     <tr>
-
      <td colspan="3">Estimated Total</td>
-
      <td>$119.77</td>
-
      <td>—</td>
-
     </tr>
-
    </tfoot>
-
   </table>
-
  </section>
 
   <section id="prototype">
@@ -325,271 +235,135 @@
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <code id="arduinoCode" class="language-cpp">
 #include <LiquidCrystal.h>
-
 #include <DHT.h>
 
-
-
 // LCD pins: RS, E, D4, D5, D6, D7
-
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
-
-
 // DHT setup
-
 #define DHTPIN 7  // DHT11 data pin
-
 #define DHTTYPE DHT11
-
 DHT dht(DHTPIN, DHTTYPE);
 
-
-
 // MQ sensor
-
 const int mqPin = A0;
 
-
-
 // Water level sensor
-
 const int waterPin = A1;
 
-
-
 // Passive buzzer pin
-
 const int buzzerPin = 8;
 
-
-
 void setup() {
-
  lcd.begin(16, 2);
-
  dht.begin();
-
  Serial.begin(9600);
-
  pinMode(buzzerPin, OUTPUT);
-
 }
 
-
-
 void loop() {
-
  float temp = dht.readTemperature();
-
  float hum = dht.readHumidity();
-
  int mqValue = analogRead(mqPin);
-
  int waterValue = analogRead(waterPin);
 
-
-
  // Air quality status
-
  String airStatus;
-
  if (mqValue < 200) airStatus = "Clean";
-
  else if (mqValue < 400) airStatus = "Moderate";
-
  else if (mqValue < 600) airStatus = "Polluted";
-
  else airStatus = "Smoke!";
 
-
-
  // Water level status
-
  String waterStatus;
-
  if (waterValue < 300) waterStatus = "Low";
-
  else if (waterValue < 700) waterStatus = "Medium";
-
  else waterStatus = "High";
 
-
-
  // --- LCD Display ---
-
  lcd.clear();
-
  lcd.setCursor(0,0);
-
  lcd.print("T:");
-
  lcd.print(temp,1);
-
  lcd.print("C H:");
-
  lcd.print(hum,0);
-
  lcd.print("%");
 
-
-
  lcd.setCursor(0,1);
-
  lcd.print("Air:");
-
  lcd.print(airStatus);
-
-
-
  delay(2000);
-
-
 
  lcd.clear();
-
  lcd.setCursor(0,0);
-
  lcd.print("Water Level:");
-
  lcd.setCursor(0,1);
-
  lcd.print(waterStatus);
-
-
-
  delay(2000);
 
-
-
  // --- Passive Buzzer Logic ---
-
  bool alert = false;
 
-
-
  // Water alerts
-
  if (waterStatus == "Medium") {
-
   alert = true;
-
   tone(buzzerPin, 1000, 500); // medium tone
-
   delay(500);
-
   noTone(buzzerPin);
-
  }
-
  else if (waterStatus == "High") {
-
   alert = true;
-
   tone(buzzerPin, 1500, 800); // higher tone
-
   delay(800);
-
   noTone(buzzerPin);
-
  }
-
-
 
  // Air quality alerts
-
  if (airStatus == "Polluted") {
-
   alert = true;
-
   tone(buzzerPin, 1200, 400); // warning tone
-
   delay(400);
-
   noTone(buzzerPin);
-
  }
-
  else if (airStatus == "Smoke!") {
-
   alert = true;
-
   tone(buzzerPin, 2000, 1000); // urgent high tone
-
   delay(1000);
-
   noTone(buzzerPin);
-
  }
-
-
 
  // Humidity alerts
-
  if (hum >= 70) {
-
   alert = true;
-
   tone(buzzerPin, 800, 600); // strong warning tone
-
   delay(600);
-
   noTone(buzzerPin);
-
  }
-
  else if (hum >= 50) {
-
   alert = true;
-
   tone(buzzerPin, 1000, 400); // louder tone
-
   delay(400);
-
   noTone(buzzerPin);
-
  }
-
-  
-
-
 
  if (!alert) {
-
   noTone(buzzerPin); // silence when no alert
-
  }
 
-
-
  // --- Serial Monitor ---
-
  Serial.print("Temp: ");
-
  Serial.print(temp);
-
  Serial.print(" C, Hum: ");
-
  Serial.print(hum);
-
  Serial.print(" %, MQ: ");
-
  Serial.print(mqValue);
-
  Serial.print(" → ");
-
  Serial.print(airStatus);
-
  Serial.print(", Water: ");
-
  Serial.print(waterStatus);
-
  Serial.print(" (Raw: ");
-
  Serial.print(waterValue);
-
  Serial.println(")");
-
 }
     </code></pre>
 
@@ -602,8 +376,6 @@ void loop() {
       }
     </script>
   </section>
-
-
 
   <section id="conclusion">
     <h2>Conclusion</h2>
@@ -675,8 +447,5 @@ void loop() {
   </ul>
 </section>
 
-
-
 </body>
-
 </html>
