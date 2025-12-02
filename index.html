@@ -77,23 +77,19 @@
     <h2>Circuit Diagram</h2>
     <p>The tempurature and humidity sensor measures the tempurature, the air quality sensor measures the air quality and the 
       water level sensors measures the water level; the Arduino constantly displays measurments through the LCD,
-      the buzzer alarms at certain thresholds and instances.</p>
+      while buzzer alarms at certain thresholds and instances.</p>
     <img src="collision-warning-system-Arduino.jpg" alt="Arduino collision warning system">
   </section>
 
   <section id="environment">
-    <h2>Environmental Impact Assessment</h2>
-    <ul>
-      <li><strong>Materials:</strong> The Arduino Uno is RoHS and WEEE compliant, limiting hazardous substances.
-      </li>
-      <li><strong>Energy Efficiency:</strong> The circuit draws minimal power (~50 mA at 5V), ideal for USB or
-        solar power.</li>
-      <li><strong>Reusability:</strong> All components are modular and reusable, reducing electronic waste.</li>
-      <li><strong>Packaging & Shipping:</strong> Ordering all components from a single supplier helps minimize
-        carbon footprint.</li>
-    </ul>
-  </section>
-
+  <h2>Environmental Impact Assessment</h2>
+  <p>Working on this project made us more aware of how even small electronic systems can be designed with sustainability in mind. 
+    The sensors and Arduino not only help monitor temperature, humidity, air quality, and water levels, 
+    but they also run on very little power, which means they can be supported by simple USB or battery without wasting to much energy. 
+    The components are modular and reusable, so if one part fails or the project evolves, nothing has to be thrown away unnecessarily. 
+    Choosing compliant hardware and ordering parts together also reduces waste and shipping emissions ex: Amazon, 
+    which makes this system not only functional but also responsible toward the environment.</p>
+</section>
   
  <section id="bom">
 
@@ -120,7 +116,7 @@
     </tr>
 
     <tr>
-     <td>tempurature and humidity Sensor</td>
+     <td>Tempurature and Humidity Sensor</td>
      <td>1</td>
      <td>$4.95</td>
      <td>$4.95</td>
@@ -128,7 +124,7 @@
     </tr>
 
     <tr>
-     <td>Air quality sensor</td>
+     <td>Air Quality Sensor</td>
      <td>1</td>
      <td>$1.65</td>
      <td>$1.65</td>
@@ -136,7 +132,7 @@
     </tr>
 
     <tr>
-     <td>Water level sensor</td>
+     <td>Water Level Sensor</td>
      <td>1</td>
      <td>$8.29</td>
      <td>$8.29</td>
@@ -152,7 +148,7 @@
     </tr>
 
     <tr>
-     <td>jumperwires</td>
+     <td>Jumperwires</td>
      <td>~50</td>
      <td>$8.59</td>
      <td>$8.59</td>
@@ -160,7 +156,7 @@
     </tr>
 
     <tr>
-     <td>LCD display</td>
+     <td>16x2 LCD</td>
      <td>1</td>
      <td>$17.00</td>
      <td>$17.00</td>
@@ -168,7 +164,7 @@
     </tr>
 
     <tr>                                                      
-     <td>buzzer</td>
+     <td>Buzzer</td>
      <td>1</td>
      <td>$0.52</td>
      <td>$0.52</td>
@@ -176,7 +172,7 @@
      </tr>
 
      <tr>                                                      
-     <td>potentiometer</td>
+     <td>Potentiometer</td>
      <td>1</td>
      <td>$1</td>
      <td>$1</td>
@@ -184,7 +180,7 @@
      </tr>
 
      <tr>                                                      
-     <td>power source</td>
+     <td>Power Source</td>
      <td>1</td>
      <td>$10.75</td>
      <td>$10.75</td>
@@ -192,7 +188,7 @@
      </tr>
 
      <tr>                                                      
-     <td>clear casing or box</td>
+     <td>Clear Casing or Box</td>
      <td>1-2</td>
      <td>$22</td>
      <td>$22</td>
@@ -200,7 +196,7 @@
      </tr>
 
      <tr>                                                      
-     <td>switch</td>
+     <td>Switch</td>
      <td>1</td>
      <td>$9.47</td>
      <td>$9.47</td>
@@ -214,7 +210,6 @@
     <tr>
      <td colspan="3">Estimated Total</td>
      <td>$119.77</td>
-     <td>—</td>
     </tr>
    </tfoot>
   </table>
@@ -228,9 +223,8 @@
 
   <section id="code">
     <h2>Arduino Code</h2>
-    <p>The following Arduino code controls the system, lighting LEDs and activating the buzzer based on distance
-      readings from the HC-SR04 sensor.</p>
-
+    <p>The following Arduino code controls the system, display, and activation of the buzzer based on 
+      thresholds and readings from the MQ135, DHT11, and Water sensor.</p>
     <pre class="line-numbers">
   <button class="copy-btn" onclick="copyCode()">Copy</button>
   <code id="arduinoCode" class="language-cpp">
@@ -387,64 +381,92 @@ void loop() {
   <h2>References</h2>
   <p>
     The following external resources and example projects demonstrate related Arduino applications 
-    using ultrasonic distance sensors, passive buzzers, and multicolour LEDs:
+    using Temperature and Humidity, Air Quality, and Water Level Sensors, passive buzzers, and LCD:
   </p>
 
   <ul>
-    <li>
-      Arduino Project Hub. (n.d.). 
-      <em>Ultrasonic sensor projects.</em> 
-      Arduino Project Hub. 
-      <a href="https://projecthub.arduino.cc/projects/tags/ultrasonic-sensor" target="_blank" rel="noopener noreferrer">
-        https://projecthub.arduino.cc/projects/tags/ultrasonic-sensor
-      </a>
-    </li>
+  <li>
+    Anonymous. (n.d.). 
+    <em>Water Level Sensor with Arduino Uno [Video].</em> 
+    YouTube. 
+    <a href="https://www.youtube.com/watch?v=-HCZY4UoFiA" target="_blank" rel="noopener noreferrer">
+      https://www.youtube.com/watch?v=-HCZY4UoFiA
+    </a>
+  </li>
 
-    <li>
-      Arduino Project Hub. (n.d.). 
-      <em>Buzzer projects.</em> 
-      Arduino Project Hub. 
-      <a href="https://create.arduino.cc/projecthub/projects/tags/buzzer" target="_blank" rel="noopener noreferrer">
-        https://create.arduino.cc/projecthub/projects/tags/buzzer
-      </a>
-    </li>
+  <li>
+    passion-tech. (n.d.). 
+    <em>Water_Level_Sensor_with_LED.ino [Code file].</em> 
+    GitHub. 
+    <a href="https://github.com/passion-tech/Hello-tech/blob/master/Water_Level_Sensor_with_LED.ino" target="_blank" rel="noopener noreferrer">
+      https://github.com/passion-tech/Hello-tech/blob/master/Water_Level_Sensor_with_LED.ino
+    </a>
+  </li>
 
-    <li>
-      Arduino Project Hub. (n.d.). 
-      <em>LED projects.</em> 
-      Arduino Project Hub. 
-      <a href="https://projecthub.arduino.cc/projects/tags/led" target="_blank" rel="noopener noreferrer">
-        https://projecthub.arduino.cc/projects/tags/led
-      </a>
-    </li>
+  <li>
+    Anonymous. (n.d.). 
+    <em>Arduino Based Air Quality Monitoring System [Video].</em> 
+    YouTube. 
+    <a href="https://www.youtube.com/watch?v=A3ZOvf9I9OU" target="_blank" rel="noopener noreferrer">
+      https://www.youtube.com/watch?v=A3ZOvf9I9OU
+    </a>
+  </li>
 
-    <li>
-      Instructables. (n.d.). 
-      <em>Distance measurement using ultrasonic sensor.</em> 
-      Instructables. 
-      <a href="https://www.instructables.com/Arduino-Distance-Measurement-Using-Ultrasonic-Senso/" target="_blank" rel="noopener noreferrer">
-        https://www.instructables.com/Arduino-Distance-Measurement-Using-Ultrasonic-Senso/
-      </a>
-    </li>
+  <li>
+    Hossain, A. (2021, May 21). 
+    <em>Air Quality Monitor [Tutorial].</em> 
+    Arduino Project Hub. 
+    <a href="https://projecthub.arduino.cc/abid_hossain/14f9b437-e0c8-415f-95c6-dae30b5693dd?offset=193&ref=platform" target="_blank" rel="noopener noreferrer">
+      https://projecthub.arduino.cc/abid_hossain/14f9b437-e0c8-415f-95c6-dae30b5693dd?offset=193&ref=platform
+    </a>
+  </li>
 
-    <li>
-      Circuit Basics. (n.d.). 
-      <em>How to use an ultrasonic sensor with Arduino.</em> 
-      Circuit Basics. 
-      <a href="https://www.circuitbasics.com/how-to-use-an-ultrasonic-sensor-with-arduino/" target="_blank" rel="noopener noreferrer">
-        https://www.circuitbasics.com/how-to-use-an-ultrasonic-sensor-with-arduino/
-      </a>
-    </li>
+  <li>
+    Arduino Project Hub. (n.d.). 
+    <em>Temperature and humidity sensor with Arduino.</em> 
+    Arduino Project Hub. 
+    <a href="https://projecthub.arduino.cc/" target="_blank" rel="noopener noreferrer">
+      https://projecthub.arduino.cc/
+    </a>
+  </li>
 
-    <li>
-      Last Minute Engineers. (n.d.). 
-      <em>Ultrasonic sensor tutorial.</em> 
-      Last Minute Engineers. 
-      <a href="https://lastminuteengineers.com/ultrasonic-sensor-arduino-tutorial/" target="_blank" rel="noopener noreferrer">
-        https://lastminuteengineers.com/ultrasonic-sensor-arduino-tutorial/
-      </a>
-    </li>
-  </ul>
+  <li>
+  Magnaye, Atashia Anyka B.; Cruz, Selene Marie S.; Reguyal, Vaughn Xavier M.; 
+  Ascaño, Andy Joseph L.; Quilit, Matt Aaron A.; Limos-Galay, Jenny A. (n.d.). 
+  <em>International Journal of Research Studies in Educational Technology.</em> 
+  Divine Word College of San Jose, Philippines. 
+  <a href="https://consortiacademia.org/wp-content/uploads/2022/e_v8i03/E248022_final.pdf" target="_blank" rel="noopener noreferrer">
+    https://consortiacademia.org/wp-content/uploads/2022/e_v8i03/E248022_final.pdf
+  </a>
+</li>
+
+  <li>
+    Arduino Project Hub. (n.d.). 
+    <em>Temperature and humidity sensor with Arduino.</em> 
+    Arduino Project Hub. 
+    <a href="https://projecthub.arduino.cc/" target="_blank" rel="noopener noreferrer">
+      https://projecthub.arduino.cc/
+    </a>
+  </li>
+
+  <li>
+    DigiKey Electronics. (n.d.). 
+    <em>Electronic Components and Parts Search.</em> 
+    DigiKey Electronics. 
+    <a href="https://www.digikey.com/" target="_blank" rel="noopener noreferrer">
+      https://www.digikey.com/
+    </a>
+  </li>
+
+  <li>
+    Mouser Electronics Canada. (n.d.). 
+    <em>Electronic Components Distributor.</em> 
+    Mouser Electronics Canada. 
+    <a href="https://www.mouser.ca/" target="_blank" rel="noopener noreferrer">
+      https://www.mouser.ca/
+    </a>
+  </li>
+</ul>
 </section>
 
 </body>
